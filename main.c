@@ -9,6 +9,7 @@ struct matrix {
 };
 
 struct matrix *matrix_create(int xsize, int ysize, int mod) {
+    srand(time(NULL));
     struct matrix *new = malloc(sizeof *new);
     new->xsize = xsize;
     new->ysize = ysize;
