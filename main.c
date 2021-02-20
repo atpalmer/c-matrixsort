@@ -40,8 +40,38 @@ void matrix_print(struct matrix *this) {
     }
 }
 
+void _swap(int *a, int *b) {
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+void _quicksort(int data[], int start, int end) {
+    if(start >= end)
+        return;
+    int target = start;
+    for(int i = start; i <= end; ++i) {
+        if(data[i] < data[end]) {
+            _swap(&data[i], &data[target++]);
+        }
+    }
+    _swap(&data[target], &data[end]);
+    _quicksort(data, start, target - 1);
+    _quicksort(data, target + 1, end);
+}
+
+void matrix_sort(struct matrix *this) {
+    for(int y = 0; y < this->ysize; ++y) {
+        _quicksort(this->values[y], 0, this->xsize - 1);
+    }
+}
+
 int main(void) {
     struct matrix *m = matrix_create(10, 10, 100);
+    printf("Matrix:\n");
+    matrix_print(m);
+    matrix_sort(m);
+    printf("Sorted Matrix:\n");
     matrix_print(m);
     matrix_free(m);
 }
